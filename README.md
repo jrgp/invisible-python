@@ -1,26 +1,37 @@
 # invisible-python
 
-Python source code, now with all the visible parts removed.
-Each byte becomes eight bits, most significant bit first: a space for zero,
-a tab for one. An `.ipy` file contains nothing else, not even newlines.
-Files are eight times the size of the originals. Progress!
+Python source code, minus the source code you can see.
 
-Requires Python 3.10 or newer. There are no runtime dependencies.
+**In:**
+
+```python
+print("Hello World!")
+```
+
+**Out:**
+
+<pre> 			     			  	  		 	  	 		 			  			 	    	 	     	   	  	  	    		  	 	 		 		   		 		   		 				  	      	 	 			 		 				 			  	  		 		   		  	    	    	  	   	   	 	  	</pre>
+
+That's the actual output. Your code is still there. It just has nothing to say.
+
+Each byte becomes eight bits: space for `0`, tab for `1`, most significant bit first.
+Only spaces and tabs. No newlines. Eight times the file size. Negative compression.
+
+Python 3.10+, no runtime dependencies.
 
 ```sh
 pip install -e .
-echo 'print("hello from invisible python")' > hello.py
+echo 'print("Hello World!")' > hello.py
 ipy encode hello.py
 ipy run hello.ipy
 ipy cat hello.ipy
 ipy cat hello.ipy > restored.py
 ```
 
-Use `ipy encode hello.py -o something.ipy` for a different output path.
-Script arguments go after the filename: `ipy run hello.ipy foo bar`.
-`python3 -m invisible_python` works in place of `ipy`.
+Use `-o other.ipy` with `encode`, or pass script arguments after `run hello.ipy`.
+`python3 -m invisible_python` also works.
 
-Encode `secret_module.py`, then explicitly enable invisible imports:
+Encode `secret_module.py`, remove or rename the original, then:
 
 ```python
 import invisible_python
@@ -28,24 +39,13 @@ invisible_python.install()
 import secret_module
 ```
 
-The hook finds `.ipy` modules on `sys.path`, including packages with
-`__init__.ipy` and relative imports. Ordinary Python imports take priority;
-remove or rename the original `.py` file to import its invisible counterpart.
-Running an `.ipy` script enables the hook and adds its directory to the import path.
+Packages use `__init__.ipy`; relative imports work. Normal Python imports take
+priority. `ipy run` enables invisible imports from the script's directory automatically.
 
-The codec also works directly on bytes:
+**Obfuscation, not encryption or security.** The bugs are invisible too.
+Only run code you trust.
 
-```python
-from invisible_python import encode, decode
-
-encoded = encode(b'print("hello")\n')
-assert decode(encoded) == b'print("hello")\n'
-```
-
-This is obfuscation, not encryption or security. Invisible code is still code:
-only run or import files you trust.
-
-To run the tests:
+Tests:
 
 ```sh
 pip install -e '.[test]'
