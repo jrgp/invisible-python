@@ -1,0 +1,20 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "invisible-python"
+version = "0.1.0"
+description = "Python you can't see: source code encoded as spaces and tabs."
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = []
+
+[project.optional-dependencies]
+test = ["pytest"]
+
+[project.scripts]
+ipy = "invisible_python.__main__:main"
+
+[tool.setuptools.packages.find]
+include = ["invisible_python*"]
