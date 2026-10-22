@@ -14,8 +14,7 @@ print("Hello World!")
 
 That's the actual output. Your code is still there. It just has nothing to say.
 
-Each byte becomes eight bits: space for `0`, tab for `1`, most significant bit first.
-Only spaces and tabs. No newlines. Eight times the file size. Negative compression.
+It's encoded as whitespace.
 
 Python 3.10+, no runtime dependencies.
 
@@ -42,8 +41,6 @@ import secret_module
 Packages use `__init__.ipy`; relative imports work. Normal Python imports take
 priority. `ipy run` enables invisible imports from the script's directory automatically.
 
-**Obfuscation, not encryption or security.** The bugs are invisible too.
-Only run code you trust.
 
 Tests:
 
